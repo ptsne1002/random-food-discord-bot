@@ -33,7 +33,7 @@ leader = "<@801662918600163379>"
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
-    auto_printer.start()
+    
 
 
 @client.event
@@ -65,9 +65,12 @@ async def on_message(message):
         result = random.choice(list_drink)
         await message.channel.send(f"@everyone Đồ uống random được hôm nay là: {result}.\nĂn uống nhiệt tình đi xếp {leader} lo hết.")
         
+        
+    if message.content.startswith('bcs! set time'):
+        auto_printer.start()
 
 #auto
-@tasks.loop(seconds=5)
+@tasks.loop(seconds=10)
 async def auto_printer():
     message_channel = client.get_channel(1050101954140983446)
     result = random.choice(list_drink+list(list_food.keys()))
