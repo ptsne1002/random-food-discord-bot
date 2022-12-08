@@ -12,6 +12,7 @@ TOKEN = os.getenv("TOKEN")
 intents = discord.Intents.all()
 client = discord.Client(command_prefix='bcs!', intents=intents)
 
+
 #data
 list_food = {
   "Gà nướng lu": "https://shopeefood.vn/ho-chi-minh/ga-nuong-lu-viet-huong-le-van-tho?shareChannel=copy_link",
@@ -27,12 +28,12 @@ list_drink = ["Trà Sữa", "Nước Ép", "Highlands"]
 
 leader = "<@801662918600163379>"
 
-#handle
 
+#handle
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
-    # auto_printer.start()
+    auto_printer.start()
 
 
 @client.event
@@ -70,7 +71,7 @@ async def on_message(message):
 @tasks.loop(seconds=5)
 async def auto_printer():
     message_channel = client.get_channel(1050101954140983446)
-    result = random.choice(list_drink+list_food)
+    result = random.choice(list_drink+list(list_food.keys()))
     await message_channel.send(f"@everyone Random food hôm nay là: {result}")
 
 @auto_printer.before_loop
