@@ -49,7 +49,6 @@ async def on_message(message):
         food_key = list(list_food.keys())
         food = random.choice(food_key)
         await message.channel.send(f"@everyone Đồ ăn random được hôm nay là: **{food}** ({list_food[food]}).\nĂn uống nhiệt tình đi xếp {leader} lo hết.")
-        await message.channel.send(f"")
 
     if message.content.startswith('bcs! custom list food :'):
         str = message.content
