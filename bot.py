@@ -6,6 +6,7 @@ import json
 
 from discord.ext import tasks, commands
 from dotenv import load_dotenv
+from get_voucher import get_voucher
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -64,7 +65,13 @@ async def on_message(message):
     if message.content.startswith('bcs! random drink'):
         result = random.choice(list_drink)
         await message.channel.send(f"@everyone Đồ uống random được hôm nay là: {result}.\nĂn uống nhiệt tình đi xếp {leader} lo hết.")
-        
+    
+    if message.content.startswith('bcs! get voucher'):
+        vouchers = get_voucher()
+        str = "Mã Giảm Giá ShopeeFood Tháng 12/2022 \n"
+        for key, value in vouchers.items():
+            str += f"**{key}** : {value}" + "\n"
+        await message.channel.send(str)
         
     if message.content.startswith('bcs! set time'):
         auto_printer.start()
