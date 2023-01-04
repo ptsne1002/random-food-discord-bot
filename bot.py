@@ -7,6 +7,8 @@ import json
 from discord.ext import tasks, commands
 from dotenv import load_dotenv
 from get_voucher import get_voucher
+from datetime import datetime
+
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -21,18 +23,19 @@ with open("data.json", "r", encoding='utf-8') as f:
 list_food = data.get('list food')
 list_drink = data.get('list drink')
 
-
+#client id
 leader = "<@801662918600163379>"
 hg_id = "<@853495845239390208>"
 ttoan_id = "<@886786917931302932>"
 dthien_id = "<@868753788608069663>"
+
+#message
+wishes = " Năm mới 2023 đã đến kính chúc mọi người @everyone có một năm mới sức khoẻ dồi dào, công việc phát triển, chúc mọi người một năm 2023 thật thành công."
+
 #handle
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
-    # message_channel = client.get_channel(844487320081924136)
-    # await message_channel.send(f"@everyone Bot mới nghe được tin mấy bé CTU {hg_id}, {ttoan_id}, {dthien_id} báo cáo luận văn thành công mỹ mãn nên sẽ đãi mọi người nguyên vườn gà ấy... :stuck_out_tongue_closed_eyes::stuck_out_tongue_closed_eyes::stuck_out_tongue_closed_eyes:")
-
 
 
 @client.event
@@ -87,11 +90,16 @@ async def on_message(message):
         auto_printer.start()
 
 #auto
-@tasks.loop(seconds=10)
+@tasks.loop(seconds=1)
 async def auto_printer():
-    message_channel = client.get_channel(1050101954140983446)
-    result = random.choice(list_drink+list(list_food.keys()))
-    await message_channel.send(f"@everyone Random food hôm nay là: {result}")
+    message_channel = client.get_channel(1050093968395862109)
+    now_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    new_date = datetime(2023, 1, 22, 0, 00).strftime("%Y-%m-%d %H:%M:%S")
+    if now_date == new_date:
+        await message_channel.send(wishes)
+    else:
+        print(f"now_date: {now_date}")
+        print(f"new_date: {new_date}")
 
 @auto_printer.before_loop
 async def before():
